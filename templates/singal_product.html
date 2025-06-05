@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+
+    <section>
+        <div class="container py-5">
+            <nav class="mb-4 text-muted font-weight-normal">
+            Home / Products / Vegetables /
+            <a class="text-success" href="#">
+            {{ products.name }}
+            </a>
+            </nav>
+        
+            <div class="row">
+            <div class="col-12 col-md-1">
+            <div class="d-flex flex-column gap-4">
+            <button class="border border-secondary rounded p-2 w-100 h-100 d-flex align-items-center justify-content-center" type="button" onclick="changeImage('{{ products.image1.url }}')">
+                <img alt="Close up image of a half sliced tomato and a whole tomato with green stems" class="object-contain" src="{{ products.image1.url }}" width="80" height="80"/>
+            </button>
+            <button class="border border-secondary rounded p-2 w-100 h-100 d-flex align-items-center justify-content-center" type="button" onclick="changeImage('{{ products.image2.url }}')">
+                <img alt="Image" class="object-contain" src="{{ products.image2.url }}" width="80" height="80"/>
+            </button>
+            </div>
+            </div>
+        
+            <div class="col-12 col-md-4 d-flex align-items-center justify-content-center border border-secondary rounded h-100 mt-4 mt-md-0">
+            <img id="main-image" alt="Close up image of a cluster of ripe red tomatoes with green stems on white background" class="object-contain" src="{{ products.image3.url }}" width="400" height="400"/>
+            </div>
+        
+            <div class="col-12 col-md-6 mt-4 mt-md-0 ms-5">
+            <h1 class="text-dark font-weight-semibold fs-3 mb-2">
+            {{ products.name }}
+            </h1>
+            <div class="d-flex align-items-center mb-3">
+            <div class="text-success">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star text-success-light"></i>
+            </div>
+            <span class="text-muted small">
+                (4)
+            </span>
+            </div>
+            <p class="text-dark font-weight-bold fs-4 mb-0">
+            MRP: ${{ products.price }}
+            </p>
+            <p class="text-muted small mb-6">
+            (inclusive of all taxes)
+            </p>
+            <div class="mb-">
+            <h2 class="font-weight-semibold text-dark fs-4 mb-3">
+                About Product
+            </h2>
+            <ul class="text-muted small">
+                <li>
+                    {{ products.description }}
+                </li>
+                <li>Juicy and ripe</li>
+                <li>Rich in Vitamin C</li>
+                <li>Perfect for salads and sauces</li>
+                <li>Farm fresh quality</li>
+            </ul>
+            </div>
+            <div class="d-flex gap-3">
+            <a href='{% url "add_to_cart" products.id %}' class="btn btn-light text-dark font-weight-semibold py-3 w-100 rounded-md" type="button">
+                Add to Cart
+            </a>
+            <a href='{% url "add_to_cart" products.id %}' class="btn btn-success text-white font-weight-semibold py-3 w-100 rounded-md" type="button">
+                Buy now
+            </a>
+            </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="container px-4 py-5 mb-4">
+        <h2 class="h5 font-weight-bold mb-4 fs-3 text-uppercase">
+            Related Products
+        </h2>
+        <div class="row row-cols-1 gap-5 row-cols-sm-2 row-cols-md-3 row-cols-lg-6 g-4">
+            <!-- Card 1 -->
+             {% for releted_product in releted_products %}
+                <div class="col border rounded">
+                    <div class="border border-light rounded-lg p-4 d-flex flex-column align-items-center">
+                        <a href="{% url "singal_product" releted_product.id %}">
+                            <img alt="Four fresh potatoes stacked on white background" class="mb-4" height="120" src="{{  releted_product.image1.url  }}" width="150"/>
+                        </a>
+                        <p class="small text-muted mb-1">
+                            {{ releted_product.category }}
+                        </p>
+                        <h3 class="font-weight-semibold h5 mb-1">
+                            {{ releted_product.name }}
+                        </h3>
+                        <div class="d-flex align-items-center mb-3">
+                            <div class="text-success d-flex pe-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            </div>
+                            <span class="text-muted small ml-2">
+                            (4)
+                            </span>
+                        </div>
+                        <div class="w-100 d-flex justify-content-between align-items-center">
+                            <div>
+                            <span class="text-success font-weight-semibold h5">
+                            ${{ releted_product.price }}
+                            </span>
+                            <!-- <span class="text-muted small ml-2 text-decoration-line-through">
+                            $40
+                            </span> -->
+                            </div>
+                            <a href="{% url "add_to_cart" releted_product.id %}" onclick="handleAddToCart(event, this)" class="btn btn-outline-success d-flex align-items-center px-3 py-1 text-sm">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="ml-2">
+                            Add
+                            </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+        <div class="mt-5 d-flex align-items-center justify-content-center">
+            <a href="{% url "product" 'all products' %}" class="btn btn-outline-success btn-lg px-5">Show More</a>
+        </div>
+    </section>
+
+
+{% endblock content %}

@@ -1,0 +1,46 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+
+    <section class="ps-5 pt-4 mb-5 w-50">
+            <h2 class="text-dark fs-4 fw-semibold mb-3">All Product</h2>
+
+            <div class="table-responsive rounded">
+                <table class="table border rounded align-middle text-nowrap">
+                    <thead class="table-light">
+                        <tr>
+                            <th class="rounded-top-start">Product</th>
+                            <th>Category</th>
+                            <th>Selling Price</th>
+                            <th class="rounded-top-end">In Stock</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Repeat for other products -->
+                        {% for product in products %}
+                            <tr>
+                                <td class="d-flex align-items-center gap-3 p-3">
+                                    <div class="border rounded d-flex align-items-center justify-content-center"
+                                        style="width: 64px; height: 64px;">
+                                        <img src="{{  product.image1.url  }}"
+                                            alt="Tomato" class="img-fluid" width="64" height="64">
+                                    </div>
+                                    <span class="text-secondary small">{{ product.name  }}</span>
+                                </td>
+                                <td class="text-secondary small">{{ product.category }}</td>
+                                <td class="text-secondary small">${{ product.price }}</td>
+                                <td>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" checked>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+
+    </section>
+
+{% endblock %}

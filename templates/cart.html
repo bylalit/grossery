@@ -1,0 +1,147 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+
+    
+<section class="bg-white text-gray-700 d-flex align-items-center container justify-content-center my-5 p-4"> 
+    <div class="container-fluid d-flex flex-column flex-lg-row gap-5">
+
+      <!-- Left side: Shopping Cart -->
+      <section class="flex-grow-1">
+        <h1 class="font-weight-semibold fs-2 text-gray-800 mb-5">
+          Shopping Cart
+        </h1>
+        <div class="d-flex text-gray-600 font-weight-semibold text-sm mb-4 px-2">
+          <div class="flex-grow-1 fw-bold">
+            Product Details
+          </div>
+          <div class="w-25 text-right fw-bold">
+            Subtotal
+          </div>
+          <div class="w-25 text-right fw-bold">
+            Action
+          </div>
+        </div>
+
+
+        {% for key, item in cart.items %}
+            <div class="d-flex align-items-center px-2 mb-4">
+                <div class="h-25 p-2 border border-gray-300 rounded-md d-flex align-items-center justify-content-center overflow-hidden">
+                    <img alt="Fresh green spinach leaves bundle on white background" class="img-fluid" height="80" src="{{ item.image }}" width="80"/>
+                </div>
+                <div class="flex-grow-1 ms-4 mt-3">
+                    <p class="font-weight-bold mb-2 fs-5">
+                    {{ item.name }}
+                    </p>
+                    <p class="text-gray-500 text-sm m-0 mb-2">
+                    Weight: N/A
+                    </p> 
+                    <div class="d-flex justify-content-between">
+                        <div class="d-flex align-items-center"> Qty: 
+                            <a href="{% url "update_cart" key 'decrease' %}" class="btn btn-outline-dark ms-2 py-0 btn-sm">
+                                -
+                            </a>
+                            <span class="px-2">{{ item.quantity }}</span>
+                            <a href="{% url "update_cart" key 'increase' %}" class="btn btn-outline-dark py-0 btn-sm">
+                                +
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-25 text-right font-weight-semibold text-gray-700 text-base">
+                    ${{ item.price }} 
+                    {% comment %} * {{ item.quantity }} {% endcomment %}
+                </div>
+                <div class="w-25 text-right">
+                    <a href="{% url "delete_cart" key %}">
+                        <img src="{% static "greencart_assets/remove_icon.svg" %}" style='width:30px;' alt="">
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+
+        <a href="{% url "product" 'all products' %}" class="d-inline-flex align-items-center text-success fw-bold text-decoration-none fs-5 hover:underline mt-5" href="#">
+          <img src="{% static "greencart_assets/arrow_right_icon_colored.svg" %}" class="me-2" alt="" srcset="">
+          Continue Shopping
+        </a>
+      </section>
+
+
+      <!-- Right side: Order Summary -->
+      <aside class="w-25 bg-light p-4 rounded-md">
+
+        <h2 class="h4 font-weight-semibold text-gray-800 mb-4">
+          Order Summary
+        </h2>
+        <hr class="border-gray-300 mb-4"/>
+        <div class="mb-3">
+          <p class="text-gray-700 font-weight-semibold text-sm mb-1">
+            DELIVERY ADDRESS
+          </p>
+          <div class="d-flex justify-content-between align-items-center text-gray-600 text-sm mb-3">
+            {% if address %}
+              <span class='text-sm text-secondary'>{{ address.state }}, {{ address.country }}</span>
+            {% else %}
+              <span class='text-sm text-secondary'>No address found</span>
+            {% endif %}
+            {% if user.is_authenticated %}
+              <a href="{% url 'add_address' %}" class="text-success text-decoration-none">Add Address</a>
+            {% else %}
+              <a href="#" onclick="alert('Please login first!'); return false;" class="text-success text-decoration-none">Add Address</a>
+            {% endif %}
+          </div>
+        </div>
+        {% comment %} <div class="mb-4">
+          <p class="text-gray-700 font-weight-semibold text-sm mb-2">
+            PAYMENT METHOD
+          </p>
+          <select class="w-100 border border-gray-300 rounded-md p-2 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:ring-success">
+            <option>Cash On Delivery</option>
+            <option>Online Payment</option>
+          </select>
+        </div> {% endcomment %}
+        <hr class="border-gray-300 mb-4"/>
+        <div class="text-gray-600 text-sm space-y-2 mb-4">
+          <div class="d-flex justify-content-between text-secondary mb-2">
+            <span>Price</span>
+            <span>${{ total_amount  }}</span>
+          </div>
+          <div class="d-flex justify-content-between text-secondary mb-2">
+            <span>Shipping Fee</span>
+            <span class="text-success font-weight-semibold">Free</span>
+          </div>
+          {% comment %} <div class="d-flex justify-content-between text-secondary mb-2">
+            <span>Tax (2%)</span>
+            <span>$0.3</span>
+          </div> {% endcomment %}
+        </div>
+        <div class="d-flex justify-content-between fw-bold text-secondary text-gray-800 text-lg mb-4">
+          <span>Total Amount:</span>
+          <span>${{ total_amount  }}</span>
+        </div>
+
+        <form method="POST" action="{% url 'place_order' %}">
+          {% csrf_token %}
+          {% if address %}
+            <input type="hidden" name='address' value="{{ address.street }}, {{ address.city }}, {{ address.state }}, {{ address.country }} - {{ address.code }}">
+            <input type="hidden" name="phone" value="{{ address.phone }}">
+            <button type='submit' class="w-100 btn btn-success text-white font-weight-semibold py-3 rounded-md hover:bg-success-dark transition">
+              Place Order
+            </button>
+          {% else %}
+            <a onclick="alert('Please Add First for address!'); return false;" class="w-100 btn btn-success text-white font-weight-semibold py-3 rounded-md hover:bg-success-dark transition">
+              Place Order
+            </a>
+          {% endif %}    
+        </form>
+        
+          
+      </aside>
+      
+    </div>
+</section>
+
+
+{% endblock content %}
+

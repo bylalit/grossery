@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+
+    <main class="container py-5 my-4">
+    <div class="row g-4 align-items-start">
+        <!-- Left Form Section -->
+        <div class="col-md-5">
+        <h1 class="text-muted h5 mb-4">
+            Add Shipping <span class="text-success fw-semibold">Address</span>
+        </h1>
+        <form method='POST'>
+            {% csrf_token %}
+            <div class="row mb-3">
+            <div class="col">
+                <input type="text" class="form-control" name='fname' placeholder="First Name">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" name='lname' placeholder="Last Name">
+            </div>
+            </div>
+            <div class="mb-3">
+            <input type="email" class="form-control" name='email' placeholder="Email address">
+            </div>
+            <div class="mb-3">
+            <input type="text" class="form-control" name='street' placeholder="Street">
+            </div>
+            <div class="row mb-3">
+            <div class="col">
+                <input type="text" class="form-control" name='city' placeholder="City">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" name='state' placeholder="State">
+            </div>
+            </div>
+            <div class="row mb-3">
+            <div class="col">
+                <input type="text" class="form-control" name='code' placeholder="Zip code">
+            </div>
+            <div class="col">
+                <input type="text" class="form-control" name='country' placeholder="Country">
+            </div>
+            </div>
+            <div class="mb-3">
+            <input type="tel" class="form-control" name='phone' placeholder="Phone">
+            </div>
+            <button type="submit" class="btn btn-success w-100 mt-3">
+            SAVE ADDRESS
+            </button>
+        </form>
+        </div>
+
+        <!-- Right Image Section -->
+        <div class="col-md-7 text-center">
+        <img src="{% static "greencart_assets/add_address_image.svg" %}"
+            alt="Shipping illustration"
+            class="img-fluid"
+            width="400"
+            height="400">
+        </div>
+    </div>
+    </main>
+
+{% endblock content %}

@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block content %}
+
+<main class="container py-5 col-md-8 mb-5">
+    <h2 class="text-success border-2 pb-1 mb-4 fw-semibold fs-4">
+        MY ORDERS
+    </h2>
+
+
+    {% if orders %}
+    {% for order in orders %}
+        <div class="border p-3 mb-4 rounded">
+            <h5>Order ID: {{ order.id }}</h5>
+            <p><strong>Date:</strong> {{ order.date }}</p>
+            <p><strong>Total:</strong> ${{ order.total_amount }}</p>
+            <p><strong>Address:</strong> {{ order.address }}</p>
+            <p><strong>Phone:</strong> {{ order.phone }}</p>
+
+            <hr>
+            <h6>Items:</h6>
+            <ul>
+                {% for item in order.items.all %}
+                <li>
+                    <img src="{{ item.product.image1.url }}" width="50" height="50" alt="{{ item.product.name }}">
+                    {{ item.product.name }} — {{ item.quantity }} × ${{ item.price }}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+    {% else %}
+        <p class='text-center fs-2 my-5'>You have no orders yet.</p>
+    {% endif %}
+
+
+
+</main>
+
+{% endblock content %}
