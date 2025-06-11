@@ -17,9 +17,9 @@
 <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom px-3 px-md-5 py-3">
   <div class="container-fluid">
     <a class="navbar-brand" href="{% url "home" %}">
-      <img src="/static/greencart_assets/logo.svg" alt="Logo" height="36">
+      <img src="{% static "greencart_assets/logo.svg" %}" alt="Logo" height="36">
     </a>
-{% comment %} {% static "greencart_assets/logo.svg" %} {% endcomment %}
+
     <!-- Toggler -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mobileNavbar" aria-controls="mobileNavbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
